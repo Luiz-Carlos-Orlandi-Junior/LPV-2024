@@ -12,10 +12,9 @@
         />
 
         <q-toolbar-title>
-          Quasar App
+          Sistema Biblioteca
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
 
@@ -28,13 +27,20 @@
         <q-item-label
           header
         >
-          Essential Links
+          Menu
         </q-item-label>
 
         <EssentialLink
           v-for="link in linksList"
           :key="link.title"
           v-bind="link"
+        />
+
+        <q-btn
+          flat
+          label="Sair"
+          icon="logout"
+          @click="logout"
         />
       </q-list>
     </q-drawer>
@@ -45,62 +51,65 @@
   </q-layout>
 </template>
 
-<script setup>
-import { ref } from 'vue'
+<script>
+import { defineComponent, ref } from 'vue'
 import EssentialLink from 'components/EssentialLink.vue'
-
-defineOptions({
-  name: 'MainLayout'
-})
+import { auth } from '../services/auth';
 
 const linksList = [
   {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
+    title: 'Dashboard',
+    icon: 'dashboard',
+    link: '/home'
   },
   {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
+    title: 'Livros',
+    icon: 'book',
+    link: '/books'
   },
   {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
+    title: 'Pedidos',
+    icon: 'feed',
+    link: '/requests'
   },
   {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
+    title: 'Clientes',
+    icon: 'groups',
+    link: '/customers'
   },
   {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
+    title: 'Serviços',
+    icon: 'design_services',
+    link: '/services'
   },
   {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
+    title: 'Produtos',
+    icon: 'inventory',
+    link: '/products'
   },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
 ]
 
-const leftDrawerOpen = ref(false)
+export default defineComponent({
+  name: 'MainLayout',
 
-function toggleLeftDrawer () {
-  leftDrawerOpen.value = !leftDrawerOpen.value
-}
+  components: {
+    EssentialLink
+  },
+
+  data() {
+    return {
+      linksList,
+      leftDrawerOpen: false
+    }
+  },
+
+  methods: {
+    toggleLeftDrawer() {
+      this.leftDrawerOpen = !this.leftDrawerOpen
+    },
+    async logout() {
+      await auth.logout();
+    }
+  }
+})
 </script>
