@@ -3,12 +3,12 @@ import shopping from 'src/services/Shopping'
 
 export const useShoppingStore = defineStore('counter',{
   state: () => ({
-    Pedidos: [],
+    pedidos: [],
     counter: 0
   }),
   actions: {
        async GetShopping(data){
-         this.Pedidos = await shopping.GetShopping(data)
+         this.pedidos = await shopping.GetShopping(data)
        }
   }
 });

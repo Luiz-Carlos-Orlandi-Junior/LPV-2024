@@ -1,7 +1,7 @@
 import {api} from "boot/axios";
 
 export const Gender = {
-  async getGender() {
+  async GetGender() {
     return await api.get('/genero');
   },
 

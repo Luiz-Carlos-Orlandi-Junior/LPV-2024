@@ -68,13 +68,6 @@ const onSubmit = async () => {
               <div class="text-center q-mt-md">
                 <q-btn flat label="Esqueci a senha" color="green" class="q-pt-none q-pb-none" />
               </div>
-
-              <div class="text-center q-mt-md text-grey">Conectar-se usando</div>
-              <div class="row justify-center q-mt-sm">
-                <q-btn round icon="fab fa-google" outline color="red" />
-                <q-btn round icon="fab fa-facebook-f" outline color="blue" class="q-ml-md" />
-                <q-btn round icon="fab fa-twitter" outline color="light-blue" class="q-ml-md" />
-              </div>
             </q-tab-panel>
 
             <q-tab-panel name="2">

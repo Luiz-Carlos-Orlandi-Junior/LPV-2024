@@ -2,7 +2,7 @@
   <div>
     <q-card class="q-ma-md">
       <q-table
-        :rows="books"
+        :rows="gender"
         :columns="columns"
         row-key="cod"
         flat
@@ -20,7 +20,7 @@
               flat
               dense
               icon="edit"
-              @click="editBook(props.row)"
+              @click="editGender(props.row)"
               color="blue"
             />
             <q-btn
@@ -40,35 +40,17 @@
     <q-dialog v-model="isOpen">
       <q-card>
         <q-card-section class="row items-center q-pb-none text-h6">
-          {{ isEdit ? "Editar" : "Cadastrar" }} Livro
+          {{ isEdit ? "Editar" : "Cadastrar" }} Genero
         </q-card-section>
         <q-card-section>
           <q-form @submit="submitForm" class="q-my-md">
-            <q-input class="q-mt-md" outlined label="Titulo" v-model="form.titulo" type="text" required />
             <q-input
               class="q-mt-md"
               outlined
-              v-model="form.autor"
-              label="Autor"
+              v-model="form.Nome"
+              label="Genero"
               type="text"
             />
-<!--            <q-select-->
-<!--              class="q-mt-md"-->
-<!--              outlined-->
-<!--              :options="voltageOptions"-->
-<!--              option-value="value"-->
-<!--              option-label="label"-->
-<!--              label="Voltagem"-->
-<!--              v-model="form.voltage"-->
-<!--              type="text"-->
-<!--              required-->
-<!--            />-->
-            <q-input class="q-mt-md" outlined label="Editora" v-model="form.editora" type="text" required />
-            <q-input class="q-mt-md" outlined label="Ano Publicação" v-model="form.ano_publicacao" type="text" required />
-            <q-input class="q-mt-md" outlined label="Quantidade" v-model="form.quantidade" type="number" required />
-            <q-input class="q-mt-md" outlined label="Valor" v-model="form.preco_unitario" type="number" required />
-            <q-input class="q-mt-md" outlined label="Idioma" v-model="form.idioma" type="text" required />
-
             <q-btn type="submit" label="Salvar" color="primary" class="q-mt-md" />
           </q-form>
         </q-card-section>
@@ -82,7 +64,7 @@
         </q-card-section>
         <q-card-actions align="right">
           <q-btn flat label="Cancelar" color="primary" v-close-popup />
-          <q-btn flat label="Excluir" color="red" @click="deleteBook" />
+          <q-btn flat label="Excluir" color="red" @click="deleteGender" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -90,47 +72,41 @@
 </template>
 
 <script>
-import { Books } from "src/services/books";
+import { Gender } from "src/services/gender";
 import { useQuasar } from "quasar";
-import moment from "moment";
 
 export default {
-  name: "BooksPage",
+  name: "GenderPage",
   data() {
     return {
       $q: useQuasar(),
-      books: [],
+      gender: [],
       isOpen: false,
       isEdit: false,
       loading: true,
       confirmDeleteDialog: false,
-      booksToDelete: null,
+      genderToDelete: null,
       file: null,
       form: {
-        titulo: "",
-        autor: "",
-        ano_publicacao: "",
-        quantidade: 0,
-        preco_unitario: 0,
-        editora: "",
-        idioma: "",
+        Nome: "",
       },
+      //voltageOptions: [
+        //{ label: '110V', value: '110' },
+        //{ label: '220V', value: '220' }
+      //],
       columns: [
-        { name: "id_livro", label: "Código", field: "id_livro", sortable: true },
-        { name: "titulo", label: "Título", field: "titulo", sortable: true },
-        { name: "autor", label: "Autor", field: "autor" },
-        { name: "ano_publicacao", label: "Ano", field: "ano_publicacao" },
-        { name: "quantidade", label: "Qtd. Estoque", field: "quantidade" },
-        { name: "preco_unitario", label: "Preço", field: "´preco_unitario" },
+        { name: "id_genero", label: "Código", field: "id_genero", sortable: true },
+        { name: "nome", label: "Genero", field: "nome", sortable: true },//
         { name: "actions", label: "Ações", field: "actions", sortable: false },
       ],
     };
   },
   methods: {
-    async getBooks() {
+    async GetGender() {
       this.loading = true;
-      await Books.getBooks().then(resp =>{
-        this.books = resp.data.rows
+      await Gender.GetGender().then(resp =>{
+        console.log(resp)
+        this.gender = resp.data.rows
       });
       this.loading = false;
     },
@@ -139,58 +115,52 @@ export default {
       this.isOpen = true;
       this.resetForm();
     },
-    editBook(books) {
+    editGender(gender) {
       this.isEdit = true;
       this.isOpen = true;
-      Object.assign(this.form, books);
+      Object.assign(this.form, gender);
     },
     async submitForm() {
       if (this.isEdit) {
-        await Books.update(this.form).then((resp) => {
+        await Gender.update(this.form).then((resp) => {
           if (resp.data[0] === 1) {
             this.$q.notify({
               type: "positive",
-              message: "Produto atualizado com sucesso!",
+              message: "Genero atualizado com sucesso!",
             });
           }
         });
       } else {
-        this.form.ano_publicacao = moment(`${this.form.ano_publicacao}-01-01`).format('YYYY-MM-DD')
-        await Books.create(this.form).then((response) => {
+        await Gender.create(this.form).then((response) => {
           if (response.rows) {
             this.$q.notify({
               type: "positive",
-              message: "Produto criado com sucesso!",
+              message: "Genero criado com sucesso!",
             });
           }
         });
       }
-      await this.getBooks();
+      await this.GetGender();
       this.isOpen = false;
     },
-    confirmDelete(books) {
-      this.booksToDelete = books;
+    confirmDelete(gender) {
+      this.genderToDelete = gender;
       this.confirmDeleteDialog = true;
     },
-    async deleteBook() {
-      await Books.delete(this.booksToDelete.id_livro);
-      await this.getBooks();
+    async deleteGender() {
+      await Gender.delete(this.genderToDelete.id_genero);
+      await this.GetGender();
       this.confirmDeleteDialog = false;
     },
     resetForm() {
       Object.assign(this.form, {
-        titulo: "",
-        autor: "",
-        ano_publicacao: "",
-        quantidade: 0,
-        editora: "",
-        idioma: "",
+        Nome: ""
       });
       this.file = null;
     },
   },
   mounted() {
-    this.getBooks();
+    this.GetGender();
   },
 };
 </script>

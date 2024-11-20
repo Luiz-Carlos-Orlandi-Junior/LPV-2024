@@ -60,7 +60,7 @@ const linksList = [
   {
     title: 'Dashboard',
     icon: 'dashboard',
-    link: '/home'
+    link: '/dashboard'
   },
   {
     title: 'Livros',
@@ -68,14 +68,14 @@ const linksList = [
     link: '/books'
   },
   {
-    title: 'Pedidos',
+    title: 'Compras',
     icon: 'feed',
-    link: '/requests'
+    link: '/shopping'
   },
   {
-    title: 'Clientes',
+    title: 'Genders',
     icon: 'groups',
-    link: '/customers'
+    link: '/gender'
   },
   {
     title: 'Serviços',
@@ -83,9 +83,9 @@ const linksList = [
     link: '/services'
   },
   {
-    title: 'Produtos',
+    title: 'listagem',
     icon: 'inventory',
-    link: '/products'
+    link: '/listing'
   },
 ]
 
