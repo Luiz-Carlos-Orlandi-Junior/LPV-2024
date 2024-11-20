@@ -1,20 +1,14 @@
-import { store } from 'quasar/wrappers'
-import { createPinia } from 'pinia'
+import Vue from "vue";
+import Vuex from 'vuex'
 
-/*
- * If not building with SSR mode, you can
- * directly export the Store instantiation;
- *
- * The function below can be async too; either use
- * async/await or return a Promise which resolves
- * with the Store instance.
- */
+import shopping from './modules/shopping'
 
-export default store((/* { ssrContext } */) => {
-  const pinia = createPinia()
+Vue.use(Vuex);
 
-  // You can add Pinia plugins here
-  // pinia.use(SomePiniaPlugin)
-
-  return pinia
+const store = new Vuex.Store({
+  modules: {
+    shopping,
+  }
 })
+
+export default store

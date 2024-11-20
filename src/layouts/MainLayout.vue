@@ -12,10 +12,9 @@
         />
 
         <q-toolbar-title>
-          Quasar App
+          Sistema Biblioteca
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
 
@@ -28,13 +27,20 @@
         <q-item-label
           header
         >
-          Essential Links
+          Menu
         </q-item-label>
 
         <EssentialLink
           v-for="link in linksList"
           :key="link.title"
           v-bind="link"
+        />
+
+        <q-btn
+          flat
+          label="Sair"
+          icon="logout"
+          @click="logout"
         />
       </q-list>
     </q-drawer>
@@ -48,50 +54,39 @@
 <script>
 import { defineComponent, ref } from 'vue'
 import EssentialLink from 'components/EssentialLink.vue'
+import { auth } from '../services/auth';
 
 const linksList = [
   {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
+    title: 'Dashboard',
+    icon: 'dashboard',
+    link: '/dashboard'
   },
   {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
+    title: 'Livros',
+    icon: 'book',
+    link: '/books'
   },
   {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
+    title: 'Compras',
+    icon: 'feed',
+    link: '/shopping'
   },
   {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
+    title: 'Genders',
+    icon: 'groups',
+    link: '/gender'
   },
   {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
+    title: 'Serviços',
+    icon: 'design_services',
+    link: '/services'
   },
   {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
+    title: 'listagem',
+    icon: 'inventory',
+    link: '/listing'
   },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
 ]
 
 export default defineComponent({
@@ -101,7 +96,7 @@ export default defineComponent({
     EssentialLink
   },
 
-  data () {
+  data() {
     return {
       linksList,
       leftDrawerOpen: false
@@ -109,8 +104,11 @@ export default defineComponent({
   },
 
   methods: {
-    toggleLeftDrawer () {
+    toggleLeftDrawer() {
       this.leftDrawerOpen = !this.leftDrawerOpen
+    },
+    async logout() {
+      await auth.logout();
     }
   }
 })
