@@ -1,6 +1,9 @@
 import {api} from "boot/axios";
 
 export const Books = {
+  async getCount() {
+    return await api.get('/livro');
+  },
   async getBooks() {
     return await api.get('/livro');
   },

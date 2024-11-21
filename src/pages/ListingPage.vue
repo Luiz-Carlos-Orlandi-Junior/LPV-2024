@@ -1,7 +1,7 @@
 <template>
-  <q-page class="q-pa-md">
+  <q-page class="bg-white">
     <q-card flat bordered class="q-mb-md" v-for="livro in books" :key="livro">
-      <q-card-section class="q-pt-none">
+      <q-card-section class="bg-white">
         <div class="text-subtitle1"
         >
           {{livro.titulo}}

@@ -1,4 +1,4 @@
-<template>
+<template class="bg-dark">
   <div>
     <q-card class="q-ma-md">
       <q-table

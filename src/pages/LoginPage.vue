@@ -3,6 +3,8 @@ import { ref } from 'vue';
 import {auth} from "src/services/auth";
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
+import {Books} from "src/services/books";
+import {User} from "src/services/User";
 
 const router = useRouter();
 
@@ -12,6 +14,8 @@ const email = ref('');
 const password = ref('');
 const rememberMe = ref(false);
 const firstName = ref('');
+const nome = ref('');
+const senha = ref('');
 const lastName = ref('');
 const acceptTerms = ref(false);
 
@@ -23,6 +27,7 @@ const onSubmit = async () => {
     }
     console.log(data)
     const resp = await auth.makeLogin(data);
+
     $q.notify({
       type: 'positive',
       message: 'Login efetuado com sucesso!'
@@ -37,6 +42,17 @@ const onSubmit = async () => {
     });
   }
 };
+
+const createUser = async () => {
+  await User.create(nome,senha,email).then((response) => {
+    if (response.rows) {
+      this.$q.notify({
+        type: "positive",
+        message: "Usuario criado com sucesso!",
+      });
+    }
+  });
+}
 </script>
 
 <template>
@@ -44,7 +60,6 @@ const onSubmit = async () => {
     <q-page-container>
       <q-page class="flex flex-center">
         <q-card class="q-pa-lg q-mt-xl shadow-2">
-          <!-- Tabs de Login e Cadastro -->
           <q-tabs v-model="step" class="text-primary" align="center" indicator-color="green" dense>
             <q-tab name="1" label="Login" icon="login" />
             <q-tab name="2" label="Cadastro" icon="person_add" />
@@ -76,12 +91,10 @@ const onSubmit = async () => {
                 <div class="text-subtitle2 text-center text-grey q-mb-lg">
                   Crie sua conta para começar a configurar suas integrações
                 </div>
-                <q-input filled v-model="firstName" label="Primeiro nome" dense color="green" />
-                <q-input filled v-model="lastName" label="Sobrenome" dense color="green" class="q-mt-md" />
                 <q-input filled v-model="email" label="Email" type="email" dense color="green" class="q-mt-md" />
                 <q-input filled v-model="password" label="Senha" type="password" dense color="green" class="q-mt-md" />
                 <q-checkbox v-model="acceptTerms" label="Aceito os termos e condições" color="green" class="q-mt-md" />
-                <q-btn color="green" label="Cadastre-se" unelevated class="q-mt-md full-width" />
+                <q-btn color="green" label="Cadastre-se" unelevated class="q-mt-md full-width" @click="createUser"/>
               </q-card-section>
 
               <div class="text-center q-mt-md text-grey">Ou siga usando</div>

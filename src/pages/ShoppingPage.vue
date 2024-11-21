@@ -1,7 +1,7 @@
 <template>
   <q-page class="q-pa-md">
     <q-card flat bordered class="q-mb-md">
-      <q-card-section>
+      <q-card-section >
         <div class="text-h6">Finalizar Compra</div>
       </q-card-section>
 
@@ -36,12 +36,14 @@
 
 <script>
 import {Shopping} from "src/services/Shopping";
+import { useRouter as router} from 'vue-router';
 
 export default {
   data() {
     return {
       livro: {},
       item: [],
+      $router: router(),
       opcoesPagamento: [
         { label: "Cartão de Crédito", value: "Cartao de Credito" },
         { label: "Cartão de Débito", value: "Cartao de Debito" },
@@ -57,14 +59,14 @@ export default {
   },
   methods: {
     async submitForm() {
-      console.log(this.livro)
-        await Shopping.create(this.livro).then((response) => {
+        await Shopping.create(this.livro).then(async (response) => {
           if (response) {
             localStorage.clear()
             this.$q.notify({
               type: "positive",
               message: "Produto criado com sucesso!",
             });
+            await this.$router.push('/dashboard');
           }
         });
     },

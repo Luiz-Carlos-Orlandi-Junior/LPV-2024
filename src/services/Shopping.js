@@ -6,6 +6,10 @@ export const Shopping = {
     return await api.get('/compra');
   },
 
+  async GetShoppingCount() {
+    return await api.get('/compra/get-count');
+  },
+
   async create(shopping) {
     return await api.post('/compra', shopping);
   },
